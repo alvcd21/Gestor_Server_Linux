@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Servidores Registrados</h2>
+
+    <a href="{{ url_for('servers.add_server') }}" class="btn btn-primary mb-3">Agregar Servidor</a>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>IP</th>
+                <th>Usuario</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for server in servers %}
+            <tr>
+                <td>{{ server.id }}</td>
+                <td>{{ server.name }}</td>
+                <td>{{ server.ip_address }}</td>
+                <td>{{ server.username }}</td>
+                <td>
+                    <form action="{{ url_for('servers.delete_server', server_id=server.id) }}" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                    <a href="{{ url_for('servers.view_metrics', server_id=server.id) }}" class="btn btn-info btn-sm">Ver Métricas</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

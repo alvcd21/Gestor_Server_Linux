@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Monitoreo de Servidor: {{ server.name }}</h1>
+<p>IP: {{ server.ip_address }}</p>
+<a href="{{ url_for('servers.index') }}" class="btn btn-secondary">Volver</a>
+{% endblock %}

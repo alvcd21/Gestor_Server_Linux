@@ -1,0 +1,49 @@
+{% extends "base.html" %} {% block content %}
+<h1>Gestión de Servicios</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Servicio</th>
+      <th>Carga</th>
+      <th>Estado</th>
+      <th>Sub Estado</th>
+      <th>Descripción</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for service in services %}
+    <tr>
+      <td>{{ service.name }}</td>
+      <td>{{ service.load }}</td>
+      <td>{{ service.active }}</td>
+      <td>{{ service.sub }}</td>
+      <td>{{ service.description }}</td>
+      <td>
+        <form
+          action="{{ url_for('services.service_action', service_name=service.name, action='start') }}"
+          method="post"
+          style="display: inline"
+        >
+          <button type="submit" class="btn btn-success btn-sm">Iniciar</button>
+        </form>
+        <form
+          action="{{ url_for('services.service_action', service_name=service.name, action='stop') }}"
+          method="post"
+          style="display: inline"
+        >
+          <button type="submit" class="btn btn-warning btn-sm">Detener</button>
+        </form>
+        <form
+          action="{{ url_for('services.service_action', service_name=service.name, action='restart') }}"
+          method="post"
+          style="display: inline"
+        >
+          <button type="submit" class="btn btn-info btn-sm">Reiniciar</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

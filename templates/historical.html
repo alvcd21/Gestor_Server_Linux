@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block content %}
+<h1>Histórico de Métricas del Sistema (últimas 24 horas)</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Fecha/Hora</th>
+      <th>% CPU</th>
+      <th>% Memoria</th>
+      <th>% Disco</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for metric in metrics %}
+    <tr>
+      <td>{{ metric.timestamp }}</td>
+      <td>{{ metric.cpu_usage }}</td>
+      <td>{{ metric.memory_usage }}</td>
+      <td>{{ metric.disk_usage }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

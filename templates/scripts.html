@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Gestión de Scripts - {{ server.name }}</h2>
+
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Menú lateral con pestañas -->
+            <div class="list-group">
+                <a href="{{ url_for('servers.view_metrics', server_id=server.id) }}" class="list-group-item list-group-item-action">📊 Métricas</a>
+                <a href="{{ url_for('scripts.index', server_id=server.id) }}" class="list-group-item list-group-item-action active">💻 Scripts</a>
+                <a href="{{ url_for('historical.index', server_id=server.id) }}" class="list-group-item list-group-item-action">📈 Histórico</a>
+                <a href="{{ url_for('services.index', server_id=server.id) }}" class="list-group-item list-group-item-action">⚙️ Servicios</a>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <h5>Scripts Disponibles:</h5>
+
+            {% if scripts %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Script</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for script in scripts %}
+                        <tr>
+                            <td>{{ script }}</td>
+                            <td>
+                                <form method="post" action="{{ url_for('scripts.run_script', server_id=server.id, script_name=script) }}">
+                                    <button type="submit" class="btn btn-sm btn-success">▶ Ejecutar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-warning">
+                    No hay scripts disponibles para este usuario.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
